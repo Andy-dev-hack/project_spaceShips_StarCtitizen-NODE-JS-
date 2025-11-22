@@ -15,7 +15,7 @@
 │   ├── naves.routes.js               # 7. Rutas para /naves (GET, POST, PUT protegido)
 │   └── patrol.routes.js              # 8. Rutas para /patrol (GET, POST, PUT protegido)
 │
-├── src/
+├── |
 │   ├── controllers/
 │   │   ├── naves.controller.js       # 9. Controla peticiones HTTP para Naves (Usa servicios)
 │   │   └── patrol.controller.js      # 10. Controla peticiones HTTP para Patrullas (Usa servicios)
