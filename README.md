@@ -1,130 +1,82 @@
-      <h1> 🚀 API Naves y Patrullas Espaciales </h1>
+# 🚀 Space Ships & Patrols API
 
-API RESTful construida con Node.js, Express y Mongoose. Implementa Autenticación (Bearer Token) y Autorización por Roles (admin).
+A robust RESTful API built with Node.js, Express, and MongoDB for managing space ships and patrols. Features secure authentication, role-based access control, and comprehensive API documentation.
 
-🛠️ Configuración Rápida
+## ✨ Features
 
--Requisitos:
+- **🔐 Authentication & Authorization**: JWT-based auth with role-based access control (User/Admin).
+- **🛡️ Security**: Implemented with `helmet`, `cors`, and input validation using `express-validator`.
+- **📝 API Documentation**: Interactive Swagger UI available at `/api-docs`.
+- **⚡ Performance**: Pagination and filtering for large datasets.
+- **🧪 Testing**: Automated integration tests with Jest and Supertest.
+- **🏗️ Architecture**: Clean MVC structure with Service layer.
 
-Node.js (v18+)
+## 🛠️ Tech Stack
 
-MongoDB (Base de datos)
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB (Mongoose)
+- **Testing**: Jest, Supertest
+- **Docs**: Swagger (OpenAPI 3.0)
 
-Mongoose (ORM/Librería de modelado para Node.js)
+## 🚀 Getting Started
 
-Nodemon (Para el desarrollo y recarga automática)
+### Prerequisites
 
-Postman o similar (Para probar los endpoints de la API)
+- Node.js (v18+)
+- MongoDB
 
-Instalación: npm install
+### Installation
 
--Arranque:
+1. Clone the repository:
 
-Crea el archivo .env en la raíz del proyecto.
+   ```bash
+   git clone <repository-url>
+   cd naves-nodes
+   ```
 
-Define las variables esenciales:
+2. Install dependencies:
 
-    # .env
+   ```bash
+   npm install
+   ```
 
-MONGO_URI="mongodb+srv://[usuario]:[password]@[cluster].mongodb.net/[db_name]"
-PORT=6000
+3. Configure Environment Variables:
+   Create a `.env` file in the root directory:
+   ```env
+   PORT=3000
+   MONGO_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>
+   JWT_SECRET=your_super_secret_key
+   ```
 
--Inicia el servidor:
+### Running the App
 
-npm start
+- **Development**:
 
-El servidor se ejecuta en http://localhost:6000
+  ```bash
+  npm start
+  ```
 
--🔒 Seguridad y Acceso
+  Server runs at `http://localhost:3000`
 
-Todas las rutas requieren la cabecera Authorization.
+- **Tests**:
+  ```bash
+  npm test
+  ```
 
-Token de Acceso
+## 📚 API Documentation
 
-Para desarrollo, usa el token simulado:
-Authorization: Bearer 123
+Full API documentation is available via Swagger UI:
+👉 **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
 
-Nota: El token 123 asigna el rol admin al usuario, necesario para las rutas protegidas.
+### Key Endpoints
 
-🔑 Endpoints de la API
-
-Base URL: http://localhost:6000
-
-+Naves (/naves)
-
-Método
-
-Ruta
-
-Descripción
-
-Requiere Rol
-
-GET
-
-/naves
-
-Lista todas las naves.
-
-- POST
-
-/naves
-
-Crea una nueva nave.
-
-- PUT
-
-/naves/admin/fix-calidad
-
-Corrige masivamente la calidad.
-
-admin
-
-+Patrullas (/patrol)
-
-Método
-
-Ruta
-
-Descripción
-
-Requiere Rol
-
--GET
-
-/patrol
-
-Lista todas las patrullas.
-
-- POST
-
-/patrol
-
-Crea una nueva patrulla.
-
-- PUT
-
-/patrol/:id
-
-Actualiza una patrulla por ID.
-
-admin
-
-💡 Ejemplo (Postman)
-
-Para actualizar una patrulla protegida (PUT /patrol/:id):
-
-Método: PUT
-
-Headers:
-
-Authorization: Bearer 123
-
-Content-Type: application/json
-
-Body (raw, JSON):
-
-{
-"price": 550000,
-"size": "Colossal"
-}
+| Method | Endpoint         | Description                 | Auth       |
+| ------ | ---------------- | --------------------------- | ---------- |
+| POST   | `/auth/register` | Register a new user         | ❌         |
+| POST   | `/auth/login`    | Login and get token         | ❌         |
+| GET    | `/naves`         | Get all ships (paginated)   | ❌         |
+| POST   | `/naves`         | Create a ship               | ❌         |
+| GET    | `/patrol`        | Get all patrols (paginated) | ❌         |
+| POST   | `/patrol`        | Create a patrol             | ❌         |
+| PUT    | `/patrol/:id`    | Update a patrol             | ✅ (Admin) |

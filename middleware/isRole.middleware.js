@@ -1,37 +1,33 @@
-// Middleware de autorización por rol.
-// Recibe el rol requerido como argumento (ej: isRole('admin')).
+// Role-based authorization middleware.
+// Receives required role as argument (e.g., isRole('admin')).
 const isRole = (requiredRole) => {
-  // Retorna la función middleware real (req, res, next).
+  // Returns the actual middleware function (req, res, next).
   return (req, res, next) => {
-    // ⚠️ CRÍTICO: Este middleware asume que 'auth.middleware.js' ya se ejecutó
-    // y ha adjuntado el objeto req.user a la petición.
+    // ⚠️ CRITICAL: This middleware assumes 'auth.middleware.js' has already executed
+    // and attached the req.user object to the request.
 
-    // 1. Verificar si req.user existe (Autenticación previa).
+    // 1. Verify if req.user exists (Previous authentication).
     if (!req.user) {
-      // Si req.user no existe, algo falló en la autenticación, devolvemos 403.
-      return res
-        .status(403)
-        .send({
-          message: "Acceso denegado. Usuario no autenticado (o fallo de Auth).",
-        });
+      // If req.user does not exist, authentication failed, return 403.
+      return res.status(403).send({
+        message: "Access denied. User not authenticated (or Auth failed).",
+      });
     }
 
-    // 2. Verificar el Rol (Autorización).
-    // Compara el rol del usuario con el rol requerido (usamos toLowerCase para hacer la comparación más flexible).
+    // 2. Verify Role (Authorization).
+    // Compares user role with required role (using toLowerCase for flexible comparison).
     if (
       req.user.role &&
       req.user.role.toLowerCase() === requiredRole.toLowerCase()
     ) {
-      // El usuario tiene el rol requerido, permite el acceso.
+      // User has required role, allow access.
       next();
     } else {
-      // El usuario está autenticado, pero no tiene el rol necesario.
-      // 403 Forbidden: El servidor entiende la petición pero se niega a autorizarla.
-      return res
-        .status(403)
-        .send({
-          message: `Acceso denegado. Se requiere el rol: ${requiredRole}.`,
-        });
+      // User is authenticated but lacks necessary role.
+      // 403 Forbidden: Server understands request but refuses to authorize it.
+      return res.status(403).send({
+        message: `Access denied. Role required: ${requiredRole}.`,
+      });
     }
   };
 };

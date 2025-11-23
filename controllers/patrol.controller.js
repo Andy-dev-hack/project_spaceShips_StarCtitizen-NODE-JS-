@@ -1,41 +1,40 @@
-// Importamos el namespace del servicio para acceder a las funciones de DB.
+// Import service namespace to access DB functions.
 import * as patrolService from "../services/patrol.service.js";
 
 /**
- * [GET /patrol] Obtiene y devuelve la lista completa de patrullas.
+ * [GET /patrol] Gets and returns the complete list of patrols.
  */
-export const getPatrols = async (req, res) => {
+export const getPatrols = async (req, res, next) => {
   try {
-    const Patrols = await patrolService.getAllPatrols();
+    const Patrols = await patrolService.getAllPatrols(req.query);
     res.json(Patrols);
   } catch (err) {
-    console.error("Error al obtener patrullas:", err);
-    res.status(500).json({ error: "Error interno al obtener patrullas" });
+    next(err);
   }
 };
 
 /**
- * [POST /patrol] Crea una nueva patrulla con los datos proporcionados en el cuerpo.
+ * [POST /patrol] Creates a new patrol with data provided in body.
  */
-export const postPatrol = async (req, res) => {
+export const postPatrol = async (req, res, next) => {
   try {
     const newPatrol = await patrolService.createPatrol(req.body);
-    // Respuesta 201 Created
+    // Response 201 Created
     res.status(201).json(newPatrol);
   } catch (err) {
-    // Manejo de errores de Mongoose: Validación (400) o Duplicado (11000)
+    // Mongoose error handling: Validation (400) or Duplicate (11000)
     if (err.name === "ValidationError" || err.code === 11000) {
       return res.status(400).json({ error: err.message });
     }
-    console.error("Error al crear la patrulla:", err);
-    res.status(500).json({ error: "Error interno al crear la patrulla." });
+    console.error("Error creating patrol:", err);
+    next(err);
   }
 };
 
 /**
- * [PUT /patrol/:id] Actualiza una patrulla existente por su ID.
+ * [PUT /patrol/:id] Updates an existing patrol by its ID.
  */
-export const putPatrol = async (req, res) => {
+export const putPatrol = async (req, res, next) => {
   try {
     const patrolId = req.params.id;
     const updateData = req.body;
@@ -45,22 +44,20 @@ export const putPatrol = async (req, res) => {
       updateData
     );
 
-    // Si la Patrulla no se encuentra, Mongoose devuelve null o el original si no se cambia.
+    // If Patrol is not found, Mongoose returns null or original if not changed.
     if (!updatedPatrol) {
-      return res
-        .status(404)
-        .json({ error: "Patrulla no encontrada para actualizar" });
+      return res.status(404).json({ error: "Patrol not found to update" });
     }
 
-    // Nota: Corregido el código de respuesta. Se usa 200 (OK) en PUT si la actualización fue exitosa.
-    // También corregido el payload para devolver el objeto correctamente.
+    // Note: Corrected response code. Use 200 (OK) in PUT if update was successful.
+    // Also corrected payload to return object correctly.
     res.status(200).json(updatedPatrol);
   } catch (err) {
-    // Manejo de errores de validación
+    // Validation error handling
     if (err.name === "ValidationError") {
       return res.status(400).json({ error: err.message });
     }
-    console.error("Error al actualizar patrulla:", err);
-    res.status(500).json({ error: "Error interno al actualizar la patrulla." });
+    console.error("Error updating patrol:", err);
+    next(err);
   }
 };

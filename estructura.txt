@@ -1,31 +1,31 @@
 /
-├── .env                              # Variables de entorno
-├── .gitignore                        # Archivos ignorados por git
+├── .env                              # Environment variables
+├── .gitignore                        # Files ignored by git
 ├── package.json
-├── server.js                         # Punto de entrada
+├── server.js                         # Entry point
 │
 ├── config/
-│   └── db.js                         # Conexión a MongoDB
+│   └── db.js                         # MongoDB connection
 │
 ├── middleware/
-│   ├── auth.middleware.js            # Middleware de autenticación
-│   └── isRole.middleware.js          # Middleware de autorización
+│   ├── auth.middleware.js            # Authentication middleware
+│   └── isRole.middleware.js          # Authorization middleware
 │
 ├── routes/
-│   ├── auth.routes.js                # Rutas de autenticación
-│   ├── naves.routes.js               # Rutas para naves
-│   └── patrol.routes.js              # Rutas para patrullas
+│   ├── auth.routes.js                # Authentication routes
+│   ├── naves.routes.js               # Ships routes
+│   └── patrol.routes.js              # Patrols routes
 │
 ├── controllers/
-│   ├── auth.controller.js            # Controlador de autenticación
-│   ├── naves.controller.js           # Controlador de naves
-│   └── patrol.controller.js          # Controlador de patrullas
+│   ├── auth.controller.js            # Authentication controller
+│   ├── naves.controller.js           # Ships controller
+│   └── patrol.controller.js          # Patrols controller
 │
-├── models/                           # Modelos de Mongoose
+├── models/                           # Mongoose models
 │   ├── naves.model.js
 │   ├── patrol.model.js
 │   └── user.model.js
 │
 └── services/
-    ├── naves.service.js              # Lógica de negocio para naves
-    └── patrol.service.js             # Lógica de negocio para patrullas
+    ├── naves.service.js              # Business logic for ships
+    └── patrol.service.js             # Business logic for patrols

@@ -1,6 +1,23 @@
 import { Patrol } from "../models/patrol.model.js";
 
-export const getAllPatrols = () => Patrol.find();
+export const getAllPatrols = async (query = {}) => {
+  const { page = 1, limit = 10, ...filters } = query;
+  const skip = (page - 1) * limit;
+
+  const patrols = await Patrol.find(filters)
+    .skip(parseInt(skip))
+    .limit(parseInt(limit));
+
+  const total = await Patrol.countDocuments(filters);
+
+  return {
+    total,
+    page: parseInt(page),
+    limit: parseInt(limit),
+    totalPages: Math.ceil(total / limit),
+    data: patrols,
+  };
+};
 
 export const createPatrol = (patrolData) => Patrol.create(patrolData);
 

@@ -5,33 +5,33 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET || "secret_key_dev_123";
 
 /**
- * Registra un nuevo usuario
+ * Registers a new user
  */
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const { username, email, password, role } = req.body;
 
-    // Validar existencia previa
+    // Validate previous existence
     const userFound = await User.findOne({ email });
     if (userFound) {
-      return res.status(400).json({ message: "El email ya está en uso" });
+      return res.status(400).json({ message: "Email already in use" });
     }
 
-    // Hashear contraseña
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // Crear usuario
+    // Create user
     const newUser = new User({
       username,
       email,
       password: passwordHash,
-      role: role || "user", // Por defecto user, pero permitimos enviar admin por ahora para pruebas
+      role: role || "user", // Default user, but allow sending admin for testing now
     });
 
     const userSaved = await newUser.save();
 
-    // Crear token (opcional al registrar, pero útil)
+    // Create token (optional on register, but useful)
     const token = jwt.sign(
       { id: userSaved._id, role: userSaved.role },
       JWT_SECRET,
@@ -52,25 +52,25 @@ export const register = async (req, res) => {
 };
 
 /**
- * Inicia sesión y devuelve un token
+ * Logs in and returns a token
  */
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Buscar usuario
+    // Find user
     const userFound = await User.findOne({ email });
     if (!userFound) {
-      return res.status(400).json({ message: "Usuario no encontrado" });
+      return res.status(400).json({ message: "User not found" });
     }
 
-    // Verificar contraseña
+    // Verify password
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Contraseña incorrecta" });
+      return res.status(400).json({ message: "Incorrect password" });
     }
 
-    // Generar token
+    // Generate token
     const token = jwt.sign(
       { id: userFound._id, role: userFound.role },
       JWT_SECRET,

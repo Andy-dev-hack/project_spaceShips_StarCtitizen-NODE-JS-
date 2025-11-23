@@ -1,27 +1,25 @@
 import mongoose from "mongoose";
 
 /**
- * Función para establecer la conexión a la base de datos MongoDB.
- * Utiliza Mongoose y la URL de conexión definida en el archivo .env (MONGO_URI).
+ * Function to establish connection to MongoDB database.
+ * Uses Mongoose and the connection URL defined in the .env file (MONGO_URI).
  */
 export const connectDB = async () => {
-  // Aseguramos que la URI esté disponible
+  // Ensure URI is available
   const dbUrl = process.env.MONGO_URI;
   if (!dbUrl) {
-    console.error(
-      "Error: La variable MONGO_URI no está definida en el archivo .env"
-    );
+    console.error("Error: MONGO_URI variable is not defined in .env file");
     process.exit(1);
   }
 
   try {
-    // Intenta conectar a la base de datos usando la URL
+    // Try to connect to the database using the URL
     await mongoose.connect(dbUrl);
-    console.log("📀 DB conectada");
+    console.log("📀 DB connected");
   } catch (err) {
-    // Si la conexión falla, registra el error y termina el proceso.
-    console.error("Error de conexión:", err);
-    // Terminar el proceso con fallo si la conexión falla
+    // If connection fails, log the error and exit process.
+    console.error("Connection error:", err);
+    // Terminate process with failure if connection fails
     process.exit(1);
   }
 };

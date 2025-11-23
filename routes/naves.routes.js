@@ -1,21 +1,38 @@
-// routes/naves.routes.js (VERSIÓN ACTUALIZADA)
+// routes/naves.routes.js (UPDATED VERSION)
 import { Router } from "express";
-// Importa el nuevo middleware de autorización por rol.
+// Import new role-based authorization middleware.
 import isRole from "../middleware/isRole.middleware.js";
 import auth from "../middleware/auth.middleware.js";
-// 🔑 CAMBIO CLAVE: Importamos las funciones del nuevo controlador
+// 🔑 KEY CHANGE: Import functions from the new controller
 import {
-  getNaves, // ⬅️ Importa el controlador
+  getNaves, // ⬅️ Import controller
   postNave,
   fixNavesCalidad,
 } from "../controllers/naves.controller.js";
+import { validateCreateNave } from "../middleware/validators/naves.validator.js";
 
 const navesRouter = Router();
 
-// Definición de rutas. Ahora mapean directamente a las funciones del Controlador.
-// ➡️ Mapea la ruta al controlador (getNaves), no al servicio.
+/**
+ * @swagger
+ * /naves:
+ *   get:
+ *     summary: Returns the list of all ships
+ *     tags: [Naves]
+ *     responses:
+ *       200:
+ *         description: The list of the ships
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
+// Route definitions. Now map directly to Controller functions.
+// ➡️ Map route to controller (getNaves), not service.
 navesRouter.get("/", getNaves);
-navesRouter.post("/", postNave);
+navesRouter.post("/", validateCreateNave, postNave);
 navesRouter.put("/admin/fix-calidad", auth, isRole("admin"), fixNavesCalidad);
 
 export default navesRouter;

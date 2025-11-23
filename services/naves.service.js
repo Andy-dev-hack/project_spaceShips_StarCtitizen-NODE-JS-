@@ -1,29 +1,48 @@
 import { Nave } from "../models/naves.model.js";
 
 /**
- * Obtiene todas las naves.
- *  Lista de naves.
+ * Gets all ships with pagination and filtering.
  */
-export const getAllNaves = () => Nave.find();
+export const getAllNaves = async (query = {}) => {
+  const { page = 1, limit = 10, ...filters } = query;
+  const skip = (page - 1) * limit;
+
+  // Basic filtering (e.g., ?size=Large)
+  // You can add more complex filtering logic here if needed
+
+  const naves = await Nave.find(filters)
+    .skip(parseInt(skip))
+    .limit(parseInt(limit));
+
+  const total = await Nave.countDocuments(filters);
+
+  return {
+    total,
+    page: parseInt(page),
+    limit: parseInt(limit),
+    totalPages: Math.ceil(total / limit),
+    data: naves,
+  };
+};
 
 /**
- * Crea una nueva nave.
+ * Creates a new ship.
  */
 export const createNave = (naveData) => Nave.create(naveData);
 
 /**
- * [NUEVA FUNCIÓN] Actualiza la propiedad 'calidad' a true
- * para todas las naves que actualmente NO tengan esa propiedad definida.
- * Esto se hace buscando el campo 'calidad' con el valor null/undefined.
- - Un objeto con el resultado de la operación (nModified, nMatched).
+ * [NEW FUNCTION] Updates 'calidad' property to true
+ * for all ships that currently do NOT have that property defined.
+ * This is done by searching for 'calidad' field with null/undefined value.
+ - An object with operation result (nModified, nMatched).
  */
 export const setCalidadNaves = async () => {
-  // El filtro busca todos los documentos donde la clave 'calidad' no existe (o es null/undefined).
+  // Filter searches for all documents where 'calidad' key does not exist (or is null/undefined).
   const filter = { calidad: { $exists: false } };
 
-  // El update utiliza el operador $set para establecer el valor de 'calidad' a true.
+  // Update uses $set operator to set 'calidad' value to true.
   const update = { $set: { calidad: true } };
 
-  // Ejecutamos la operación de actualización masiva.
+  // Execute massive update operation.
   return Nave.updateMany(filter, update);
 };

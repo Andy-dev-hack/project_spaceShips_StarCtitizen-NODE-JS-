@@ -1,31 +1,32 @@
-// Importa el constructor Router de Express.
+// Import Express Router constructor.
 import { Router } from "express";
 
-// Importa el middleware de autorización por rol (CORRECCIÓN).
+// Import role-based authorization middleware (CORRECTION).
 import isRole from "../middleware/isRole.middleware.js";
 import auth from "../middleware/auth.middleware.js";
 
-// Importa las funciones del controlador que manejan la lógica de la petición.
+// Import controller functions that handle request logic.
 import {
   getPatrols,
   postPatrol,
   putPatrol,
 } from "../controllers/patrol.controller.js";
+import { validateCreatePatrol } from "../middleware/validators/patrol.validator.js";
 
-// Inicializa el enrutador.
+// Initialize router.
 const patrolRouter = Router();
 
-// 1. GET /patrol: Obtiene todas las patrullas.
+// 1. GET /patrol: Get all patrols.
 patrolRouter.get("/", getPatrols);
 
-// 2. POST /patrol: Crea una nueva patrulla.
-patrolRouter.post("/", postPatrol);
+// 2. POST /patrol: Create a new patrol.
+patrolRouter.post("/", validateCreatePatrol, postPatrol);
 
-// 3. PUT /patrol/:id: Actualiza una patrulla específica por su ID.
-// RUTA PROTEGIDA: Requiere el rol 'admin' para modificar una patrulla.
+// 3. PUT /patrol/:id: Update a specific patrol by its ID.
+// PROTECTED ROUTE: Requires 'admin' role to modify a patrol.
 patrolRouter.put("/:id", auth, isRole("admin"), putPatrol);
 
-// Exporta el enrutador para que pueda ser usado en server.js.
+// Export router to be used in server.js.
 export default patrolRouter;
 
 ///////////////////////////////////

@@ -1,22 +1,22 @@
 // src/models/Nave.model.js
 import mongoose from "mongoose";
 
-// Definición del esquema de la nave
+// Ship schema definition
 const naveSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      // Se añade 'unique: true' para asegurar que no haya nombres de nave duplicados.
+      // Added 'unique: true' to ensure no duplicate ship names.
       unique: true,
     },
     price: {
       type: Number,
     },
-    size: String, // Propiedad opcional para el tamaño
+    size: String, // Optional property for size
     calidad: Boolean,
   },
-  // Especificamos la colección en la base de datos (aunque Mongoose lo haría automáticamente, es buena práctica)
+  // Specify collection in database (although Mongoose would do it automatically, it's good practice)
   { collection: "naves" }
 );
 

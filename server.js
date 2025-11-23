@@ -13,23 +13,38 @@ import authRouter from "./routes/auth.routes.js";
 const app = express();
 const PORT = process.env.PORT || 3000; // Changed to 3000
 
-// Middleware de seguridad y logs
+// Security and logging middleware
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 
-// Middleware para manejar peticiones JSON
+// Middleware to handle JSON requests
 app.use(express.json());
 
-// Definición de rutas
+// Route definitions
 app.use("/auth", authRouter);
 // app.use(auth); // Removed global auth
 app.use("/naves", navesRouter);
 app.use("/patrol", patrolRouter);
 
-// Conexión a la base de datos y levantamiento del servidor
-await connectDB();
+// Swagger Documentation
+import swaggerUi from "swagger-ui-express";
+import { specs } from "./config/swagger.js";
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor Express escuchando en http://localhost:${PORT}`);
-});
+// Error Handling Middleware (Must be last)
+import { errorHandler } from "./middleware/error.middleware.js";
+app.use(errorHandler);
+
+// Export app for testing
+export { app };
+
+// Only start server if not in test mode
+if (process.env.NODE_ENV !== "test") {
+  // Database connection and server startup
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`🚀 Express server listening at http://localhost:${PORT}`);
+  });
+}
