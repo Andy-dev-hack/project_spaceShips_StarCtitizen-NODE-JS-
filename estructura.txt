@@ -1,31 +1,38 @@
-/
-├── .env                              # Environment variables
-├── .gitignore                        # Files ignored by git
-├── package.json
-├── server.js                         # Entry point
-│
+/naves-nodes
 ├── config/
-│   └── db.js                         # MongoDB connection
-│
-├── middleware/
-│   ├── auth.middleware.js            # Authentication middleware
-│   └── isRole.middleware.js          # Authorization middleware
-│
-├── routes/
-│   ├── auth.routes.js                # Authentication routes
-│   ├── naves.routes.js               # Ships routes
-│   └── patrol.routes.js              # Patrols routes
-│
+│   ├── db.js                # Database connection
+│   └── swagger.js           # Swagger API configuration
 ├── controllers/
-│   ├── auth.controller.js            # Authentication controller
-│   ├── naves.controller.js           # Ships controller
-│   └── patrol.controller.js          # Patrols controller
-│
-├── models/                           # Mongoose models
-│   ├── naves.model.js
-│   ├── patrol.model.js
-│   └── user.model.js
-│
-└── services/
-    ├── naves.service.js              # Business logic for ships
-    └── patrol.service.js             # Business logic for patrols
+│   ├── auth.controller.js   # Authentication logic
+│   ├── naves.controller.js  # Naves logic
+│   └── patrol.controller.js # Patrol logic
+├── middleware/
+│   ├── validators/          # Input validation middleware
+│   │   ├── auth.validator.js
+│   │   ├── naves.validator.js
+│   │   ├── patrol.validator.js
+│   │   └── validateResult.js
+│   ├── auth.middleware.js   # JWT Authentication
+│   ├── error.middleware.js  # Centralized error handling
+│   └── isRole.middleware.js # Role-based authorization
+├── models/
+│   ├── naves.model.js       # Ship schema
+│   ├── patrol.model.js      # Patrol schema
+│   └── user.model.js        # User schema
+├── routes/
+│   ├── auth.routes.js       # Auth routes
+│   ├── naves.routes.js      # Naves routes
+│   └── patrol.routes.js     # Patrol routes
+├── services/
+│   ├── naves.service.js     # Naves business logic
+│   └── patrol.service.js    # Patrol business logic
+├── tests/                   # Automated tests
+│   ├── auth.test.js
+│   └── naves.test.js
+├── .env                     # Environment variables
+├── .gitignore
+├── package.json
+├── README.md
+├── server.js                # Application entry point
+├── estructura.txt           # Project structure diagram
+└── tutorial.txt             # Beginner's tutorial

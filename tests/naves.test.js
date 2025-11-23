@@ -5,7 +5,8 @@ import { Nave } from "../models/naves.model.js";
 import "dotenv/config";
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI);
+  // Use a separate test database to avoid wiping real data
+  await mongoose.connect(process.env.MONGO_URI, { dbName: "naves_test" });
 });
 
 afterAll(async () => {

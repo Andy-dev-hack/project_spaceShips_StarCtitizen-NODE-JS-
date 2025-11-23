@@ -72,6 +72,10 @@ This is where the actual work happens.
 2.  **Pagination**: Instead of sending 1,000 ships at once, we send them in pages (e.g., `?page=1&limit=10`).
 3.  **Swagger Docs**: We added a website (`/api-docs`) where you can test the API buttons without writing code.
 4.  **Automated Tests**: We wrote scripts (`tests/`) that automatically check if our code is working correctly.
+5.  **Expanded CRUD**: We added more power to our services!
+    *   **Get by ID**: Find a specific ship or patrol.
+    *   **Update**: Change details of a ship.
+    *   **Delete**: Remove ships or patrols.
 
 ---
 
