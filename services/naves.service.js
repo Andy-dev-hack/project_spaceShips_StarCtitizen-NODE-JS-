@@ -1,4 +1,4 @@
-import { Nave } from "../model/naves.model.js";
+import { Nave } from "../models/naves.model.js";
 
 /**
  * Obtiene todas las naves.

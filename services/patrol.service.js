@@ -1,4 +1,4 @@
-import { Patrol } from "../model/patrol.model.js";
+import { Patrol } from "../models/patrol.model.js";
 
 export const getAllPatrols = () => Patrol.find();
 

@@ -1,29 +1,31 @@
 /
-├── .env                              # 1. Variables de entorno (secretos: MONGO_URI, PORT)
-├── .gitignore                        # 2. Ignora /node_modules y .env
+├── .env                              # Variables de entorno
+├── .gitignore                        # Archivos ignorados por git
 ├── package.json
-├── server.js                         # 3. Punto de entrada (Inicializa Express, DB, y Middlewares)
+├── server.js                         # Punto de entrada
 │
 ├── config/
-│   └── db.js                         # 4. Conexión a MongoDB (Usa MONGO_URI)
+│   └── db.js                         # Conexión a MongoDB
 │
 ├── middleware/
-│   ├── auth.middleware.js            # 5. Autenticación (Verifica Bearer Token, simula '123')
-│   └── isRole.middleware.js          # 6. Autorización (Verifica req.user.role)
+│   ├── auth.middleware.js            # Middleware de autenticación
+│   └── isRole.middleware.js          # Middleware de autorización
 │
 ├── routes/
-│   ├── naves.routes.js               # 7. Rutas para /naves (GET, POST, PUT protegido)
-│   └── patrol.routes.js              # 8. Rutas para /patrol (GET, POST, PUT protegido)
+│   ├── auth.routes.js                # Rutas de autenticación
+│   ├── naves.routes.js               # Rutas para naves
+│   └── patrol.routes.js              # Rutas para patrullas
 │
-├── |
-│   ├── controllers/
-│   │   ├── naves.controller.js       # 9. Controla peticiones HTTP para Naves (Usa servicios)
-│   │   └── patrol.controller.js      # 10. Controla peticiones HTTP para Patrullas (Usa servicios)
-│   │
-│   ├── models/
-│   │   ├── Nave.model.js             # 11. Esquema Mongoose para Naves
-│   │   └── Patrol.model.js           # 12. Esquema Mongoose para Patrullas
-│   │
-│   └── services/
-│       ├── naves.service.js          # 13. Lógica de negocio/DB para Naves (Usa modelo)
-│       └── patrol.service.js         # 14. Lógica de negocio/DB para Patrullas (Usa modelo)
+├── controllers/
+│   ├── auth.controller.js            # Controlador de autenticación
+│   ├── naves.controller.js           # Controlador de naves
+│   └── patrol.controller.js          # Controlador de patrullas
+│
+├── models/                           # Modelos de Mongoose
+│   ├── naves.model.js
+│   ├── patrol.model.js
+│   └── user.model.js
+│
+└── services/
+    ├── naves.service.js              # Lógica de negocio para naves
+    └── patrol.service.js             # Lógica de negocio para patrullas
