@@ -3,6 +3,7 @@ import { Router } from "express";
 
 // Importa el middleware de autorización por rol (CORRECCIÓN).
 import isRole from "../middleware/isRole.middleware.js";
+import auth from "../middleware/auth.middleware.js";
 
 // Importa las funciones del controlador que manejan la lógica de la petición.
 import {
@@ -22,7 +23,7 @@ patrolRouter.post("/", postPatrol);
 
 // 3. PUT /patrol/:id: Actualiza una patrulla específica por su ID.
 // RUTA PROTEGIDA: Requiere el rol 'admin' para modificar una patrulla.
-patrolRouter.put("/:id", isRole("admin"), putPatrol);
+patrolRouter.put("/:id", auth, isRole("admin"), putPatrol);
 
 // Exporta el enrutador para que pueda ser usado en server.js.
 export default patrolRouter;

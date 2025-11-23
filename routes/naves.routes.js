@@ -2,6 +2,7 @@
 import { Router } from "express";
 // Importa el nuevo middleware de autorización por rol.
 import isRole from "../middleware/isRole.middleware.js";
+import auth from "../middleware/auth.middleware.js";
 // 🔑 CAMBIO CLAVE: Importamos las funciones del nuevo controlador
 import {
   getNaves, // ⬅️ Importa el controlador
@@ -15,7 +16,7 @@ const navesRouter = Router();
 // ➡️ Mapea la ruta al controlador (getNaves), no al servicio.
 navesRouter.get("/", getNaves);
 navesRouter.post("/", postNave);
-navesRouter.put("/admin/fix-calidad", isRole("admin"), fixNavesCalidad);
+navesRouter.put("/admin/fix-calidad", auth, isRole("admin"), fixNavesCalidad);
 
 export default navesRouter;
 //////////////////////////////////////////
