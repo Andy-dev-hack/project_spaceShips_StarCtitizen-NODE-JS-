@@ -1,0 +1,84 @@
+# 🚀 Beginner's Guide to the Space Ships API Project
+
+Welcome! This tutorial will guide you through how this Node.js project works, step by step. We built a RESTful API to manage Space Ships ("Naves") and Patrols.
+
+---
+
+## 🏗️ 1. The Big Picture (Architecture)
+
+We use the **MVC (Model-View-Controller)** pattern, but since this is an API (no "View" or HTML), it's more like **Model-Route-Controller-Service**.
+
+*   **Models**: Define what our data looks like (Database).
+*   **Routes**: Define the URLs (endpoints) users can visit.
+*   **Controllers**: Handle the request and send the response.
+*   **Services**: Handle the business logic (the "brain" of the operation).
+
+---
+
+## 📂 2. Project Structure Explained
+
+### Step 1: The Entry Point (`server.js`)
+This is the heart of the application.
+*   It starts the **Express** server.
+*   It connects to the **MongoDB** database.
+*   It sets up **Middleware** (tools that run on every request, like security headers).
+*   It registers our **Routes**.
+
+### Step 2: The Database Models (`models/`)
+We use **Mongoose** to talk to MongoDB.
+*   **`naves.model.js`**: Defines a Ship. It must have a `name` (unique) and can have a `price`, `size`, and `calidad`.
+*   **`user.model.js`**: Defines a User. Includes `email`, `password`, and `role` (user or admin).
+
+### Step 3: The Routes (`routes/`)
+These files act like a traffic cop. They direct requests to the right place.
+*   **`naves.routes.js`**:
+    *   `GET /naves` -> Goes to `getNaves` controller.
+    *   `POST /naves` -> Goes to `postNave` controller.
+*   **Validation**: We added checks here! If you try to create a ship without a name, the route stops you before you reach the controller.
+
+### Step 4: The Controllers (`controllers/`)
+These are the managers. They receive the request (`req`) and decide what to send back (`res`).
+*   **`naves.controller.js`**:
+    *   Extracts data from the user (like `req.body` for new ships).
+    *   Calls the **Service** to do the work.
+    *   Sends back a JSON response (success or error).
+
+### Step 5: The Services (`services/`)
+This is where the actual work happens.
+*   **`naves.service.js`**: Contains functions like `getAllNaves()` or `createNave()`. It talks directly to the Database Model.
+*   **Why separate this?** It keeps our Controllers clean and makes testing easier!
+
+---
+
+## 🛡️ 3. Security & Middleware
+
+### Authentication (`middleware/auth.middleware.js`)
+*   We use **JWT (JSON Web Tokens)**.
+*   When a user logs in, they get a "badge" (token).
+*   This middleware checks that badge on every protected request. No badge? No entry! 🚫
+
+### Authorization (`middleware/isRole.middleware.js`)
+*   Some actions are for **Admins** only (like fixing ship quality).
+*   This middleware checks if the user's role is "admin".
+
+### Error Handling (`middleware/error.middleware.js`)
+*   Instead of crashing the server when something goes wrong, this catches the error and sends a nice, readable message to the user.
+
+---
+
+## 🔍 4. New Features We Added
+
+1.  **Input Validation**: We use `express-validator` to make sure emails look like emails and prices are numbers.
+2.  **Pagination**: Instead of sending 1,000 ships at once, we send them in pages (e.g., `?page=1&limit=10`).
+3.  **Swagger Docs**: We added a website (`/api-docs`) where you can test the API buttons without writing code.
+4.  **Automated Tests**: We wrote scripts (`tests/`) that automatically check if our code is working correctly.
+
+---
+
+## 🎓 How to Run It
+
+1.  **Start the Server**: `npm start`
+2.  **Run Tests**: `npm test`
+3.  **View Docs**: Go to `http://localhost:3000/api-docs`
+
+Happy Coding! 🚀
