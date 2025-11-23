@@ -23,3 +23,14 @@ export const createPatrol = (patrolData) => Patrol.create(patrolData);
 
 export const updatePatrol = (id, updateData) =>
   Patrol.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+
+export const getPatrolById = (id) => Patrol.findById(id);
+
+export const deletePatrol = (id) => Patrol.findByIdAndDelete(id);
+
+export const findPatrolsByCrewRequirement = (crewSize) => {
+  return Patrol.find({
+    minCrew: { $lte: crewSize },
+    recomendedCrew: { $gte: crewSize },
+  });
+};

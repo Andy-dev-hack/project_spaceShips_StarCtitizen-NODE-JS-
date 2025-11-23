@@ -61,3 +61,30 @@ export const putPatrol = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * [GET /patrol/:id] Gets a patrol by ID.
+ */
+export const getPatrolById = async (req, res, next) => {
+  try {
+    const patrol = await patrolService.getPatrolById(req.params.id);
+    if (!patrol) return res.status(404).json({ error: "Patrol not found" });
+    res.json(patrol);
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * [DELETE /patrol/:id] Deletes a patrol by ID.
+ */
+export const deletePatrol = async (req, res, next) => {
+  try {
+    const deletedPatrol = await patrolService.deletePatrol(req.params.id);
+    if (!deletedPatrol)
+      return res.status(404).json({ error: "Patrol not found" });
+    res.json({ message: "Patrol deleted successfully" });
+  } catch (err) {
+    next(err);
+  }
+};

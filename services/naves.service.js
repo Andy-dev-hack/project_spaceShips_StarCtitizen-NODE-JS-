@@ -46,3 +46,28 @@ export const setCalidadNaves = async () => {
   // Execute massive update operation.
   return Nave.updateMany(filter, update);
 };
+
+/**
+ * Finds a ship by its ID.
+ */
+export const getNaveById = (id) => Nave.findById(id);
+
+/**
+ * Updates a ship by its ID.
+ */
+export const updateNave = (id, data) =>
+  Nave.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+
+/**
+ * Deletes a ship by its ID.
+ */
+export const deleteNave = (id) => Nave.findByIdAndDelete(id);
+
+/**
+ * Finds ships within a specific price range.
+ */
+export const findNavesByPriceRange = (min, max) => {
+  return Nave.find({
+    price: { $gte: min, $lte: max },
+  });
+};

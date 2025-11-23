@@ -49,3 +49,42 @@ export const fixNavesCalidad = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * Gets a ship by ID.
+ */
+export const getNaveById = async (req, res, next) => {
+  try {
+    const nave = await navesService.getNaveById(req.params.id);
+    if (!nave) return res.status(404).json({ error: "Ship not found" });
+    res.json(nave);
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * Updates a ship by ID.
+ */
+export const updateNave = async (req, res, next) => {
+  try {
+    const updatedNave = await navesService.updateNave(req.params.id, req.body);
+    if (!updatedNave) return res.status(404).json({ error: "Ship not found" });
+    res.json(updatedNave);
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * Deletes a ship by ID.
+ */
+export const deleteNave = async (req, res, next) => {
+  try {
+    const deletedNave = await navesService.deleteNave(req.params.id);
+    if (!deletedNave) return res.status(404).json({ error: "Ship not found" });
+    res.json({ message: "Ship deleted successfully" });
+  } catch (err) {
+    next(err);
+  }
+};

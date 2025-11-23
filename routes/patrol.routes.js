@@ -10,6 +10,8 @@ import {
   getPatrols,
   postPatrol,
   putPatrol,
+  getPatrolById,
+  deletePatrol,
 } from "../controllers/patrol.controller.js";
 import { validateCreatePatrol } from "../middleware/validators/patrol.validator.js";
 
@@ -21,6 +23,8 @@ patrolRouter.get("/", getPatrols);
 
 // 2. POST /patrol: Create a new patrol.
 patrolRouter.post("/", validateCreatePatrol, postPatrol);
+patrolRouter.get("/:id", getPatrolById);
+patrolRouter.delete("/:id", deletePatrol);
 
 // 3. PUT /patrol/:id: Update a specific patrol by its ID.
 // PROTECTED ROUTE: Requires 'admin' role to modify a patrol.

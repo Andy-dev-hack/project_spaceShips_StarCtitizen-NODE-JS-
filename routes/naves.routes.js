@@ -8,6 +8,9 @@ import {
   getNaves, // ⬅️ Import controller
   postNave,
   fixNavesCalidad,
+  getNaveById,
+  updateNave,
+  deleteNave,
 } from "../controllers/naves.controller.js";
 import { validateCreateNave } from "../middleware/validators/naves.validator.js";
 
@@ -33,6 +36,9 @@ const navesRouter = Router();
 // ➡️ Map route to controller (getNaves), not service.
 navesRouter.get("/", getNaves);
 navesRouter.post("/", validateCreateNave, postNave);
+navesRouter.get("/:id", getNaveById);
+navesRouter.put("/:id", updateNave);
+navesRouter.delete("/:id", deleteNave);
 navesRouter.put("/admin/fix-calidad", auth, isRole("admin"), fixNavesCalidad);
 
 export default navesRouter;
